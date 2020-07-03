@@ -38,7 +38,6 @@ export const cardsApi = {
                 token
             }
         )
-
     },
     deleteCard(id: string, token: string | null) {
         return instance.delete<AddPostDeleteResponseType>(`?token=${token}&id=${id}`)

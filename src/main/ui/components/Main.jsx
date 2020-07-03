@@ -1,51 +1,60 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './Main.module.css'
 import Header from "./header/Header";
-import Root from './root/Root';
 import Menu from './menu/Menu';
 import Intro from "./intro/Intro";
-import Scroll from "../common/scroll/Scroll";
-import Loader from "../common/loader/Loader";
-import Test from "../../features/test/Test";
-import Routs from "./routes/Routes";
+import FormRoutes from "./routes/FormRoutes";
+import MainRoutes from "./routes/MainRoutes";
+import {useDispatch} from "react-redux"
+import {localAuthMe} from "../../auth/login/loginReducer"
+
 
 const Main = () => {
 
-	// let [ toggleBg, setBg ] = useState (true);
-	// let [ modal, setModal ] = useState (false);
-	//
-	// useEffect (() => {
-	// 	let vid = document.getElementById ('intro');
-	// 	vid.addEventListener ('ended', () => {
-	// 		setBg (!toggleBg);
-	// 	}, true);
-	//
-	// }, []);
+    const [toggleBg, setBg] = useState(true);
+    const [ toggleMenu, setMenu ] = useState (false);
+    const [ toggleAbout, setAbout ] = useState (false);
+    const [openProfile, setProfile] = useState(false);
+    const dispatch = useDispatch();
 
-	return (
-		<div>
-			{/*<Header setModal={setModal} setBg={setBg} toggleBg={toggleBg}/>*/}
-				{/*<div className={styles.main__wrap}>*/}
-				{/*	{*/}
-				{/*		toggleBg &&*/}
-				{/*		<Intro setBg={setBg}/>*/}
-				{/*	}*/}
-				{/*	{*/}
-				{/*		!toggleBg &&*/}
-				{/*		<>*/}
-				{/*			<Root/>*/}
-				{/*			<Loader/>*/}
-				{/*		</>*/}
-				{/*	}*/}
+    useEffect(() => {
+        dispatch(localAuthMe());
+    }, [dispatch]);
 
-				{/*	<Scroll modal={modal} setModal={setModal}/>*/}
-				{/*	<Menu/>*/}
-				{/*</div>*/}
+    useEffect(() => {
+        let vid = document.getElementById('intro');
+        vid.addEventListener('ended', () => {
+            setBg(!toggleBg);
+        }, true);
 
-			<Header/>
-			<Test/>
-			<Routs/>
-		</div>
-	)
+        return () => {
+            vid.removeEventListener('ended', () => {
+                setBg(!toggleBg);
+            }, true);
+
+        }
+    }, []);
+
+    return (
+        <>
+            <Header toggleBg={toggleBg} toggleMenu={toggleMenu} setMenu={setMenu}
+                    toggleAbout={toggleAbout} setAbout={setAbout} openProfile={openProfile}
+                    setProfile={setProfile}/>
+            <>
+                {
+                    toggleBg &&
+                    <Intro setBg={setBg} toggleBg={toggleBg} />
+                }
+                {
+                    !toggleBg &&
+                    <MainRoutes/>
+                }
+            </>
+            <FormRoutes/>
+            <Menu toggleMenu={toggleMenu} setMenu={setMenu} toggleAbout={toggleAbout}
+                  setAbout={setAbout} openProfile={openProfile}
+                  setProfile={setProfile} toggleBg={toggleBg} />
+        </>
+    )
 }
 export default Main

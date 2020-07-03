@@ -5,24 +5,37 @@ import soundOn from '../../icons/sound-on.svg'
 import skip from '../../icons/skip-circle .svg'
 import intro from '../../video/Intro-53-commpres.mp4'
 import intro_webm from '../../video/Intro-53-commpres-webm.webm'
-import poster from '../../images/main-bg.png'
+import poster from '../../images/main-bg.webp'
 
 
-const Intro = ({ setBg }) => {
+const Intro = ({ setBg, toggleBg }) => {
 
 	let [ sound, setSound ] = useState (true);
-	let [ iconFlash, setIconlash ] = useState (false);
+	let [ iconFlash, setIconFlash ] = useState (false);
 
 	useEffect (() => {
 		let vid = document.getElementById ('intro');
 		vid.volume = 0.25;
 		vid.addEventListener ('playing', () => {
-			setIconlash (true);
+			setIconFlash (true);
 			setTimeout (() => {
-				setIconlash (false);
+				setIconFlash (false);
 			}, 3000);
 		}, true);
 
+		return () => {
+			vid.removeEventListener ('playing', () => {
+				setIconFlash (true);
+				setTimeout (() => {
+					setIconFlash (false);
+				}, 3000);
+			}, true);
+
+			vid.removeEventListener('ended', () => {
+				setBg(!toggleBg);
+			}, true);
+
+		}
 	}, []);
 
 	const classIcon = iconFlash === true ? `${styles.intro__icon_flash}` : `${styles.intro__icon}`;
@@ -46,8 +59,9 @@ const Intro = ({ setBg }) => {
 					<img src={soundOn} alt='soundOf'/>
 				</div>
 			}
-			We are sorry that you cannot see the intro
-			<div className={styles.intro__icon_skip } onClick={() => setBg (false)}>
+			<p>Your browser doesn't support HTML5 video.</p>
+			<p>We are sorry that you cannot see the video.</p>
+			<div className={styles.intro__icon_skip} onClick={() => setBg (false)}>
 				<img src={skip} alt='skip'/>
 			</div>
 		</div>

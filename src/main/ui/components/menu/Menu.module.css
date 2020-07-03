@@ -4,14 +4,16 @@
     position: absolute;
     right: 0;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
     background-image: url('../../images/cтена-218.png');
     background-size: cover;
     background-repeat: no-repeat;
     display: flex;
     justify-content: center;
     padding-top: 120px;
+    cursor: pointer;
 }
+
 .menu__wrap {
     position: relative;
     width: 80%;
@@ -29,7 +31,6 @@
     width: 132px;
     height: 0;
     transform: rotate(-90deg);
-    cursor: pointer;
 }
 
 .menu__point {
@@ -42,7 +43,6 @@
     width: 100px;
     height: 0;
     transform: rotate(-90deg);
-    cursor: pointer;
 }
 
 .menu__close {
@@ -50,4 +50,9 @@
     height: 0;
     transform: rotate(-90deg);
     cursor: pointer;
+}
+
+.menu_notActive {
+    pointer-events: none;
+    cursor: none;
 }

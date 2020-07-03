@@ -16,7 +16,6 @@ type OwnProps = {
     sortDown: (e: React.MouseEvent<HTMLButtonElement>) => void
 
 }
-
 const Cards: React.FC<OwnProps> = ({
                                        cards,
                                        onAddNewCard,
@@ -60,7 +59,6 @@ const Cards: React.FC<OwnProps> = ({
     )
 
     return (
-
         <div className={styles.Cards}>
 
             {(cards.length === 0 &&
@@ -77,9 +75,7 @@ const Cards: React.FC<OwnProps> = ({
                         {cardsEls}
                     </div>
                 </div>
-
             </div>}
-
             {repository.get_Auth_id() === userId &&
             <div>
                 <ModalWindowAddCard onAddNewCard={onAddNewCard}/>
